@@ -1,0 +1,21 @@
+{
+    "parameters": {
+        "exp.log_file": "${BENCH_ROOT}/logs/openvino/${exp.model}_$('${openvino.model}'.replace('/', ':'))$_batch${exp.replica_batch}.log",
+        "exp.docker": true,
+        "exp.docker_image": "dlbs/openvino:19.09",
+        "exp.framework": "openvino",
+        "exp.phase": "inference",
+
+        "exp.sys_info": "cpuinfo,meminfo,lscpu,dmi",
+        "exp.dlbs_hashtag": "latest",
+
+        "exp.model": "resnet-50-int8-tf-0001",
+        "openvino.model": "FP32/resnet-50-int8-tf-0001",
+        "exp.replica_batch": 1,
+
+        "exp.rerun": "always"
+    },
+    "variables": {
+    }
+}
+
