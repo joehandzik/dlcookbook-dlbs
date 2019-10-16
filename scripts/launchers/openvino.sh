@@ -27,12 +27,8 @@ script="\
     echo -e \"__results.start_time__= \x22\$(date +%Y-%m-%d:%H:%M:%S:%3N)\x22\";\
     cd \${OPENVINO_DIR}/deployment_tools/open_model_zoo/tools/downloader;\
     ${runtime_python} ./downloader.py ${openvino_downloader_args};\
-    cd /mnt/openvino_benchmarks;\
-    export MODEL_FILE=\"\$(${runtime_python} ./get_model_path.py /mnt/openvino/models ${exp_model} ${openvino_model})\";\
-    echo -e \"__exp.model_full_path__= \x22\${MODEL_FILE}\x22\";\
     cd /opt/intel/openvino_benchmark_app/intel64/Release;\
-    echo \"Model File: \${MODEL_FILE}\"; \
-    ./benchmark_app -m \${MODEL_FILE} -api ${openvino_api} -b ${exp_replica_batch};\
+    ./benchmark_app -m /mnt/openvino/models/intel/${openvino_model_rel_path} -api ${openvino_api} -b ${exp_replica_batch};\
     proc_pid=\$!;\
     [ \"${monitor_frequency}\" != \"0\" ] && echo -e \"\${proc_pid}\" > ${monitor_backend_pid_folder}/proc.pid;\
     wait \${proc_pid};\

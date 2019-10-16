@@ -26,7 +26,7 @@
       "desc": "The name of a docker image to use for OpenVINO if containerized benchmark is requested."
     },
     "openvino.downloader_args": {
-      "val": "--name ${exp.model} --output_dir /mnt/openvino/models --cache_dir /mnt/openvino/cache",
+      "val": "--name $('${exp.model}'.split('/')[0])$ --output_dir /mnt/openvino/models --cache_dir /mnt/openvino/cache",
       "type": "str",
       "desc": "Parameters for a model downloader."
     },
@@ -41,8 +41,8 @@
       "type": "str",
       "desc": "Enable Sync/Async API. Default value is 'async'."
     },
-    "openvino.model": {
-      "val": "",
+    "openvino.model_rel_path": {
+      "val": "$('${exp.model}/{}.xml'.format('${exp.model}'.split('/')[0]))$",
       "type": "str",
       "desc": "."
     },
