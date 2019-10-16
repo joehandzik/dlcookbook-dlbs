@@ -28,7 +28,7 @@ script="\
     cd \${OPENVINO_DIR}/deployment_tools/open_model_zoo/tools/downloader;\
     ${runtime_python} ./downloader.py ${openvino_downloader_args};\
     cd /opt/intel/openvino_benchmark_app/intel64/Release;\
-    ./benchmark_app -m /mnt/openvino/models/intel/${openvino_model_rel_path} -api ${openvino_api} -b ${exp_replica_batch};\
+    ${runtime_launcher} ./benchmark_app -m /mnt/openvino/models/intel/${openvino_model_rel_path} -api ${openvino_api} -b ${exp_replica_batch};\
     proc_pid=\$!;\
     [ \"${monitor_frequency}\" != \"0\" ] && echo -e \"\${proc_pid}\" > ${monitor_backend_pid_folder}/proc.pid;\
     wait \${proc_pid};\
