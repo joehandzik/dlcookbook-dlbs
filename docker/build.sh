@@ -177,11 +177,12 @@ for dockerfile_dir in "$@"; do
     if [[ "${name}" == "openvino" ]]; then
         # Once base image with OpenVINO becomes available, this will not be required anymore.
         # http://registrationcenter-download.intel.com/akdlm/irc_nas/15792/l_openvino_toolkit_p_2019.2.275.tgz
+        # http://registrationcenter-download.intel.com/akdlm/irc_nas/15944/l_openvino_toolkit_p_2019.3.334.tgz
         work_dir=$(pwd)
         cd ${dockerfile_dir}
         if [[ ! -d "./${version}" ]]; then
             if [[ ! -f "./${version}.tgz" ]]; then
-                openvino_url="http://registrationcenter-download.intel.com/akdlm/irc_nas/15792/${version}.tgz"
+                openvino_url="http://registrationcenter-download.intel.com/akdlm/irc_nas/${version}.tgz"
                 wget "${openvino_url}" || logfatal "Error downloading OpenVINO from ${openvino_url}"
             fi
             tar -xf l_openvino_toolkit*

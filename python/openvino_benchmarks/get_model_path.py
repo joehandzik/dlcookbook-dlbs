@@ -19,6 +19,19 @@ def main():
     #
     models_list = '/opt/intel/openvino/deployment_tools/tools/model_downloader/list_topologies.yml'
     # models_list = '/home/serebrya/.dlbs/openvino/list_topologies.yml'
+
+    error_msg = "DLBS::get_model_path(models_dir={}, model_name={}, model_file={}) - File with model definitions "\
+                "does not exist ({}).".format(models_dir, model_name, model_file, models_list)
+    # If file does not exist, guess it
+    if not os.path.exists(models_list):
+        fname = os.path.join(models_dir, 'intel', model_name, model_file)
+        if os.path.exists(fname):
+            print(fname)
+            exit(0)
+        raise RuntimeError(error_msg + " Candidate ({}) does not exist as well.".format(fname))
+    else:
+        raise RuntimeError(error_msg)
+
     with open(models_list, 'r') as stream:
         try:
             models = yaml.safe_load(stream)

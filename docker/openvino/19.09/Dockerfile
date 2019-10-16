@@ -1,11 +1,9 @@
 FROM ubuntu:18.04
 
-ADD l_openvino_toolkit* /openvino/
-
-ARG OPENVINO_DIR=/opt/intel/openvino
-
 # System dependencies
 RUN apt-get update && apt-get -y upgrade && apt-get autoremove -y
+RUN apt install -y --no-install-recommends software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install -y --no-install-recommends \
         build-essential \
         cpio \
@@ -20,6 +18,9 @@ RUN apt-get install -y --no-install-recommends \
         sudo \
         mc \
         vim
+
+ADD l_openvino_toolkit* /openvino/
+ARG OPENVINO_DIR=/opt/intel/openvino
 
 # OpenVINO dependencies
 RUN cd /openvino/ && \

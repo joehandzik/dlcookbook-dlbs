@@ -1,8 +1,8 @@
 {
     "parameters": {
-        "exp.log_file": "${BENCH_ROOT}/logs/openvino/${exp.model}_$('${openvino.model}'.replace('/', ':'))$_batch${exp.replica_batch}.log",
+        "exp.log_file": "${BENCH_ROOT}/logs1/openvino/${exp.model}_$('${openvino.model}'.replace('/', ':'))$_batch${exp.replica_batch}.log",
         "exp.docker": true,
-        "exp.docker_image": "dlbs/openvino:19.09",
+        "exp.docker_image": "dlbs/openvino:exp",
         "exp.framework": "openvino",
         "exp.phase": "inference",
 
