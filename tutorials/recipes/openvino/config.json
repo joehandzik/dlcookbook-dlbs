@@ -1,21 +1,30 @@
 {
     "parameters": {
-        "exp.log_file": "${BENCH_ROOT}/logs1/openvino/${exp.model}_$('${openvino.model}'.replace('/', ':'))$_batch${exp.replica_batch}.log",
+        "exp.log_file": "${BENCH_ROOT}/logs/openvino/cpu_config_${exp.cpu_config}/$('${exp.model}'.replace('/', '_').lower())$_batch${exp.replica_batch}.log",
         "exp.docker": true,
-        "exp.docker_image": "dlbs/openvino:exp",
+        "exp.docker_image": "dlbs/openvino:19.09",
         "exp.framework": "openvino",
         "exp.phase": "inference",
 
         "exp.sys_info": "cpuinfo,meminfo,lscpu,dmi",
-        "exp.dlbs_hashtag": "latest",
+        "exp.dlbs_hashtag": "",
 
-        "exp.model": "resnet-50-int8-tf-0001",
-        "openvino.model": "FP32/resnet-50-int8-tf-0001",
-        "exp.replica_batch": 1,
+        "exp.rerun": "never",
 
-        "exp.rerun": "always"
+	"exp.device_title": "Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz",
+	"exp.model_title": "$('${exp.model}'.replace('/', ':').lower())$"
     },
     "variables": {
-    }
+        "exp.replica_batch": [1, 2, 4, 8, 16],
+	"exp.model": ["age-gender-recognition-retail-0013/FP32", "emotions-recognition-retail-0003/FP32", "face-detection-adas-0001/FP32",
+                      "face-detection-retail-0005/FP32", "face-reidentification-retail-0095/FP32", "instance-segmentation-security-0083/FP32",
+                      "mobilenetv2-int8-tf-0001/FP32", "resnet-50-int8-tf-0001/FP32", "inceptionv3-int8-tf-0001/FP32"],
+	"exp.cpu_config": [1]
+    },
+    "extensions": [
+	{"condition": {"exp.cpu_config": 1},  "parameters": {"runtime.launcher": "OMP_NUM_THREADS=80"}},
+	{"condition": {"exp.cpu_config": 2},  "parameters": {"runtime.launcher": "OMP_NUM_THREADS=40 numactl --localalloc --physcpubind=0-19,40-59"}},
+        {"condition": {"exp.cpu_config": 3},  "parameters": {"runtime.launcher": "OMP_NUM_THREADS=20 numactl --localalloc --physcpubind=0-19"}}
+    ]
 }
 

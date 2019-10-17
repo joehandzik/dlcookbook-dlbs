@@ -5,6 +5,7 @@ RUN apt-get update && apt-get -y upgrade && apt-get autoremove -y
 RUN apt install -y --no-install-recommends software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install -y --no-install-recommends \
+        numactl \
         build-essential \
         cpio \
         curl \

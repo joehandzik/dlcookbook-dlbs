@@ -5,3 +5,13 @@ export BENCH_ROOT=$( cd $( dirname "${BASH_SOURCE[0]}" ) && pwd )
 
 # Run benchmarks.
 python $experimenter run --config=./config.json
+
+# Parse results
+# To print it without warnings, use: ./run 2>/dev/null
+for cpu_config in 1 2 3
+do
+    echo "--------------------------------------------------------------------------"
+    echo "CPU CONFIG: ${cpu_config}"
+    echo "--------------------------------------------------------------------------"
+    python ${benchdata} report ./logs --report regular --select '{"exp.cpu_config": '"${cpu_config}"'}'
+done
