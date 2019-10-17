@@ -19,7 +19,7 @@
 	"exp.model": ["age-gender-recognition-retail-0013/FP32", "emotions-recognition-retail-0003/FP32", "face-detection-adas-0001/FP32",
                       "face-detection-retail-0005/FP32", "face-reidentification-retail-0095/FP32", "instance-segmentation-security-0083/FP32",
                       "mobilenetv2-int8-tf-0001/FP32", "resnet-50-int8-tf-0001/FP32", "inceptionv3-int8-tf-0001/FP32"],
-	"exp.cpu_config": [1]
+	"exp.cpu_config": [1, 2, 3]
     },
     "extensions": [
 	{"condition": {"exp.cpu_config": 1},  "parameters": {"runtime.launcher": "OMP_NUM_THREADS=80"}},
