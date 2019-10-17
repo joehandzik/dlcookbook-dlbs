@@ -180,16 +180,24 @@ for dockerfile_dir in "$@"; do
         # http://registrationcenter-download.intel.com/akdlm/irc_nas/15944/l_openvino_toolkit_p_2019.3.334.tgz
         work_dir=$(pwd)
         cd ${dockerfile_dir}
-        if [[ ! -d "./${version}" ]]; then
-            if [[ ! -f "./${version}.tgz" ]]; then
+        # Remove first 6 characters
+        openvino_fname="${version:6}"
+        if [[ ! -d "./${openvino_fname}" ]]; then
+            logwarn "Directory with OpenVINO not found (${openvino_fname})"
+            if [[ ! -f "./${openvino_fname}.tgz" ]]; then
+                logwarn "Archive with OpenVINO not found (${openvino_fname}.tgz)"
                 openvino_url="http://registrationcenter-download.intel.com/akdlm/irc_nas/${version}.tgz"
                 wget "${openvino_url}" || logfatal "Error downloading OpenVINO from ${openvino_url}"
+            else
+                loginfo "Found OpenVINO archive (${openvino_fname}.tgz)"
             fi
             tar -xf l_openvino_toolkit*
+        else
+            loginfo "Found OpenVINO directory (${openvino_fname})"
         fi
         cd ${work_dir}
     fi
-
+    exit 0
     exec="${docker} build -t $img_name $args $dockerfile_dir"
 
     loginfo "new docker image build started"
