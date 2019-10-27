@@ -1,0 +1,35 @@
+{
+    "parameters": {
+        "exp.log_file": "${BENCH_ROOT}/logs/openvino-custom-mkldnn/cpu_config_${exp.cpu_config}_vnni_${exp.vnni_status}/$('${exp.model}'.replace('/', '_').lower())$_batch${exp.replica_batch}.log",
+        "exp.docker": true,
+        "exp.docker_image": "dlbs/openvino:19.09-custom-mkldnn",
+        "exp.framework": "openvino",
+        "exp.phase": "inference",
+
+        "exp.sys_info": "cpuinfo,meminfo,lscpu,dmi",
+        "exp.dlbs_hashtag": "",
+
+        "exp.rerun": "never",
+
+	"exp.device_title": "Intel(R) Xeon(R) Gold 6254 CPU @ 3.10GHz",
+	"exp.model_title": "$('${exp.model}'.replace('/', ':').lower())$",
+
+        "runtime.launcher": "${exp.vnni_opts} ${exp.cpu_opts}"
+    },
+    "variables": {
+        "exp.replica_batch": [1, 2, 4, 8, 16],
+	"exp.model": ["age-gender-recognition-retail-0013/FP32", "emotions-recognition-retail-0003/FP32", "face-detection-adas-0001/FP32",
+                      "face-detection-retail-0005/FP32", "face-reidentification-retail-0095/FP32", "instance-segmentation-security-0083/FP32",
+                      "mobilenetv2-int8-tf-0001/FP32", "resnet-50-int8-tf-0001/FP32", "inceptionv3-int8-tf-0001/FP32"],
+	"exp.cpu_config": [1, 2, 3],
+	"exp.vnni_status": ["on", "off"]
+    },
+    "extensions": [
+	{"condition": {"exp.cpu_config": 1}, "parameters": {"exp.cpu_opts":  "OMP_NUM_THREADS=80"}},
+	{"condition": {"exp.cpu_config": 2}, "parameters": {"exp.cpu_opts":  "OMP_NUM_THREADS=40 numactl --localalloc --physcpubind=0-19,40-59"}},
+        {"condition": {"exp.cpu_config": 3}, "parameters": {"exp.cpu_opts":  "OMP_NUM_THREADS=20 numactl --localalloc --physcpubind=0-19"}},
+        {"condition": {"exp.vnni_status": "on"}, "parameters": {"exp.vnni_opts": "MKLDNN_NO_VNNI=0"}},
+        {"condition": {"exp.vnni_status": "off"}, "parameters": {"exp.vnni_opts": "MKLDNN_NO_VNNI=1"}}
+    ]
+}
+
