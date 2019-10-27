@@ -46,3 +46,9 @@ cd /opt/intel/openvino_benchmark_app/intel64/Release
 Other potential parameters for the benchmark app are described [here](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_benchmark_app_README.html). DLBS configures OpenVINO benchmark backend in this [file](../../../python/dlbs/configs/openvino.json)
 
 On the first run, DLBS creates a cache folder `${HOME}/.dlbs/openvino`. In that folder, a file (`list_topologies.yml`) lists available models. 
+
+## Benchmarking VNNI instructions
+The [config_vnni_tests.json](./config_vnni_tests.json) defines a test configuration for studying the impact of VNNI instructions on inference workloads. To use that, you need:
+1. Build 'dlbs/openvino:19.09' docker image
+2. Build 'dlbs/openvino:19.09-custom-mkldnn' docker image
+in this particular order. For more technical details, read this [README](../../../docker/openvino/19.09-custom-mkldnn/README.md) file.
