@@ -174,7 +174,7 @@ for dockerfile_dir in "$@"; do
         cp -r ../src/tensorrt  ${dockerfile_dir}   # Copy project
     fi
 
-    if [[ "${name}" == "openvino" ]]; then
+    if [[ "${name}" == "openvino" ]] && [[ ! ${tag} == "19.09-custom-mkldnn" ]]; then
         # Once base image with OpenVINO becomes available, this will not be required anymore.
         # http://registrationcenter-download.intel.com/akdlm/irc_nas/15792/l_openvino_toolkit_p_2019.2.275.tgz
         # http://registrationcenter-download.intel.com/akdlm/irc_nas/15944/l_openvino_toolkit_p_2019.3.334.tgz
@@ -197,7 +197,7 @@ for dockerfile_dir in "$@"; do
         fi
         cd ${work_dir}
     fi
-    exit 0
+
     exec="${docker} build -t $img_name $args $dockerfile_dir"
 
     loginfo "new docker image build started"
