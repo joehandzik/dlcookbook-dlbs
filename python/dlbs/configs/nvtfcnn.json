@@ -19,7 +19,7 @@
       "desc": "Environmental variables to set for NVTFCNN benchmarks."
     },
     "nvtfcnn.docker_image": {
-      "val": "nvcr.io/nvidia/tensorflow:18.07-py3",
+      "val": "nvcr.io/nvidia/tensorflow:19.09-py3",
       "type": "str",
       "desc": "The name of a docker image to use for PyTorch if containerized benchmark is requested."
     },
@@ -59,6 +59,7 @@
     "nvtfcnn.docker_args": {
       "val": [
         "-i",
+	"--gpus all",
         "--security-opt seccomp=unconfined",
         "--pid=host",
         "--ipc=host",
@@ -76,7 +77,7 @@
     {"condition":{"exp.framework": "nvtfcnn"}, "parameters": {"exp.framework_title": "TensorFlow-nvtfcnn"}},
     {
       "condition": {"exp.framework": "nvtfcnn"},
-      "parameters": {"exp.docker_launcher": "nvidia-docker"}
+      "parameters": {"exp.docker_launcher": "docker"}
     },
     {
       "condition":{"exp.framework": "nvtfcnn", "exp.model": "alexnet_owt"},
